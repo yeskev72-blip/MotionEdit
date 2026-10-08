@@ -139,16 +139,21 @@ jamais plus :
 Chaque effet a une enveloppe de volume qui retombe à 0 avant la fin de son clip,
 donc aucune coupure nette ne claque.
 
-**Lit musical** : absent de la version livrée. `assets/bgm/generate.py` est prêt
-(prompt afrobeat, graine torch fixée pour une piste reproductible) mais
-`huggingface.co` est refusé par la politique réseau de l'environnement — les
-poids de `facebook/musicgen-small` sont inatteignables. torch s'installe bien
-depuis PyPI, le modèle non. Débloquer `huggingface.co` dans les réglages de
-l'environnement suffit à relancer le script tel quel.
+**Pas de lit musical — choix assumé, pas un repli.** La piste a été tentée
+(MusicGen hors-ligne) puis abandonnée : `huggingface.co` est refusé par la
+politique réseau de l'environnement, donc les poids de `facebook/musicgen-small`
+sont inatteignables. Mis devant le choix, l'auteur a tranché pour les marqueurs
+seuls.
 
-Rien n'a été substitué à la place : sur 26 secondes, un ersatz de musique
-synthétisé à la main s'entendrait et desservirait la vidéo plus qu'un silence
-assumé sous les marqueurs.
+Ce que ça implique pour le mixage : entre les marqueurs, c'est le silence, et
+le plus long intervalle fait 4,4 s (entre la coupe vers le produit à 3,13 s et
+le clic sur « Analyser » à 7,50 s). Si le silence venait à s'entendre comme une
+coupure de son plutôt que comme une intention, un fond de salle très discret ou
+un tic régulier sous les plans 4 à 6 suffirait à le combler, sans ajouter de
+musique.
+
+Le script de génération a été retiré du projet une fois la décision prise ; il
+reste récupérable dans l'historique git (commit bd1f49d).
 
 ## Garde-fous
 

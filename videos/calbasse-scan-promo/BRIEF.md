@@ -38,6 +38,8 @@ que pointer. Pas de slogan publicitaire gonflé.
 - Compteur animé sur le total 2 675,5 kcal et sur les macros.
 - Punch-ins sur les chiffres clés ; le reste reste au repos.
 - Bande sonore ajoutée de zéro : la source est totalement muette (-inf dB).
+- Sound design final : 9 marqueurs, pas de lit musical. Décision confirmée par
+  l'auteur après l'échec de la génération locale, pas un défaut de livraison.
 
 ## Notes
 
