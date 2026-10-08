@@ -4,6 +4,30 @@
    Tokens live on html so they inherit into every mounted sub-composition root. */
 
 html {
+  /* ── TikTok safe box ───────────────────────────────────────────────
+     TikTok publishes no single pixel spec — it says the zone depends on
+     the format and the caption length, and third-party guides disagree
+     (bottom buffers from 320px to 484px, right from 64px to 280px). These
+     are the conservative end of that range for an ORGANIC 1080x1920 post,
+     where the action rail (avatar, like, comment, share, spinning disc) is
+     wider than in the ad templates.
+
+       text may live in   x 60 → 840,  y 180 → 1440
+       keep clear         top 180   bottom 480   left 60   right 240
+
+     Footage may extend past the box; text never does. */
+  --safe-top: 180px;
+  --safe-bottom: 480px;
+  --safe-left: 60px;
+  --safe-right: 240px;
+
+  /* The app window: a panned view into the recording, sized to sit wholly
+     inside the safe box with the text band underneath it. */
+  --win-x: 60px;
+  --win-y: 180px;
+  --win-w: 780px;
+  --win-h: 860px;
+
   --brand: #9c4818;
   --brand-bright: #c7531d;
   --gold: #d8a860;
@@ -65,8 +89,8 @@ html {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 760px;
+  bottom: var(--safe-bottom);
+  height: 620px;
   background: linear-gradient(
     to top,
     rgba(16, 7, 3, 0.95) 0%,
@@ -91,11 +115,14 @@ html {
 
 /* ── layout blocks ────────────────────────────────────────────────── */
 
+/* The text band: between the window's lower edge and the safe bottom line.
+   Anchored to the safe box, never to the frame, so nothing can drift under
+   TikTok's caption block. */
 .card {
   position: absolute;
-  left: 66px;
-  right: 66px;
-  bottom: 104px;
+  left: var(--safe-left);
+  right: var(--safe-right);
+  bottom: 490px;
 }
 
 .valrow {
@@ -104,82 +131,80 @@ html {
   gap: 20px;
 }
 
-/* ── step pill ────────────────────────────────────────────────────── */
+/* ── step index ──────────────────────────────────────────────────── */
 
-.pill {
-  position: absolute;
-  left: 70px;
-  top: 236px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 34px 20px 26px;
-  border-radius: 999px;
-  background: rgba(16, 7, 3, 0.88);
-  border: 2px solid rgba(216, 168, 96, 0.4);
-}
-
-.pill-n {
-  font-family: "IBM Plex Mono", monospace;
-  font-weight: 700;
-  font-size: 34px;
-  color: var(--bg-0);
-  background: var(--gold);
-  border-radius: 999px;
-  width: 58px;
-  height: 58px;
-  display: grid;
-  place-items: center;
-  letter-spacing: -0.02em;
-}
-
-.pill-t {
+/* Beats 4-6 carry their step in the same band as every other beat, so the
+   eye never leaves one place. */
+.step-n {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
   font-size: 30px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--bg-0);
+  background: var(--gold);
+  border-radius: 999px;
+  padding: 8px 20px 8px 22px;
+  display: inline-block;
+}
+
+.step-line {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: 76px;
   color: var(--cream);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  margin-top: 24px;
 }
 
 /* ── macro chips ──────────────────────────────────────────────────── */
 
 .macro-row {
   display: flex;
-  gap: 18px;
-  margin-top: 34px;
+  gap: 14px;
+  margin-top: 22px;
 }
 
 .macro {
-  flex: 1;
-  padding: 22px 24px 24px;
-  border-radius: 26px;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  padding: 14px 14px;
+  border-radius: 18px;
   background: rgba(252, 248, 242, 0.07);
   border: 2px solid rgba(252, 248, 242, 0.14);
 }
 
 .macro-bar {
-  height: 7px;
+  flex: 0 0 7px;
+  width: 7px;
   border-radius: 99px;
-  margin-bottom: 18px;
+}
+
+.macro-txt {
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .macro-v {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 34px;
   color: var(--cream);
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
+  line-height: 1.15;
 }
 
 .macro-l {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 400;
-  font-size: 25px;
-  letter-spacing: 0.1em;
+  font-size: 20px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-top: 8px;
+  line-height: 1.2;
 }
 
 /* ── detected-dish rows ───────────────────────────────────────────── */
@@ -218,9 +243,9 @@ html {
 
 .rail {
   position: absolute;
-  left: 70px;
-  right: 70px;
-  bottom: 96px;
+  left: var(--safe-left);
+  right: var(--safe-right);
+  bottom: 500px;
   height: 8px;
   border-radius: 99px;
   background: rgba(252, 248, 242, 0.16);

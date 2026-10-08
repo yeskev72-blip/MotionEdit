@@ -42,20 +42,72 @@ aucun fetch réseau au rendu.
 Tailles (plein écran vertical) : accroche 112px · titre 76px · nombre héros
 150px · corps 38px · étiquette mono 30px, `letter-spacing: .18em`.
 
-## Scène
+## Scène — construite autour du gabarit TikTok
 
-L'écran de l'app n'est **jamais rogné** : la source 1080×2182 est posée en
-entier dans un cadre d'appareil.
+La vidéo est destinée à TikTok, où l'interface recouvre une grande partie du
+cadre. **Tout le texte vit dans une boîte de sécurité ; rien n'en sort.**
 
-- Cadre au repos : 880 × 1778, centré, `border-radius: 44px`, filet
-  `rgba(255,255,255,.14)`, ombre portée chaude.
-- Les cartons de texte flottent au-dessus de l'écran sur un voile dégradé —
-  jamais à côté, pour garder l'écran grand.
-- Quand une carte large entre, l'appareil descend à `scale .88` et remonte de
-  60px : la bande libérée en bas accueille la carte. Il revient à 1.0 à la
-  sortie. C'est la seule chorégraphie de caméra globale.
-- Punch-ins ponctuels : `scale 1.0 → 1.22` recentré sur le nombre visé, 0.5 s,
-  `power3.out`. Uniquement sur 2 675,5 kcal et sur 784,5 kcal.
+TikTok ne publie pas de cote unique : sa doc dit que la zone dépend du format
+et de la longueur de la légende, et les guides tiers se contredisent (bas de
+320 à 484 px, droite de 64 à 280 px). Le gabarit retenu est l'extrémité
+prudente de cette fourchette, pour un post **organique** où le rail d'actions
+(avatar, cœur, commentaire, partage, disque) est plus large que dans les
+modèles publicitaires :
+
+| Côté   | À laisser libre | Raison                                      |
+| ------ | --------------- | ------------------------------------------- |
+| Haut   | 180 px          | barre d'état + onglets « Abonnements / Pour toi » |
+| Bas    | 480 px          | pseudo, légende, ticker musical, barre de navigation |
+| Gauche | 60 px           | marge                                       |
+| Droite | 240 px          | rail d'actions                              |
+
+**Zone d'écriture : x 60 → 840, y 180 → 1440.**
+
+Le *footage* peut déborder de cette boîte — un spectateur accepte que l'image
+continue sous l'interface. Le texte, jamais.
+
+### La fenêtre, et pourquoi ce n'est plus un téléphone entier
+
+Un écran 1080 × 2182 ne rentre pas dans une boîte de 780 × 1260 sans devenir
+illisible. La composition montre donc **une fenêtre panoramiquée** dans
+l'enregistrement plutôt que l'appareil entier :
+
+- Fenêtre fixe : `x 60, y 180, 780 × 860`, coins arrondis, filet clair.
+- La vidéo y est rendue à `780 × 1576` (échelle 0,72222), donc la fenêtre
+  découpe une tranche de 1191 px de la source.
+- **Chaque plan porte son propre décalage vertical**, qui amène son contenu
+  utile dans la tranche. C'est ce qui remplace le rétrécissement : au lieu de
+  réduire tout l'écran, le film montre la partie qui compte.
+
+| Plan | Décalage source | Ce que la fenêtre cadre                       |
+| ---- | --------------- | --------------------------------------------- |
+| 2    | 560             | le lockup CALBASSE                            |
+| 3    | 60              | la carte 3 460 et la rangée de macros         |
+| 4    | 60              | le viseur et « Cadre tout le plat »           |
+| 5    | 500             | la photo cadrée et le bouton Analyser         |
+| 6    | 700             | les quatre étapes d'analyse                   |
+| 7    | 450             | le total 2 675,5, les macros, « Aliments détectés » |
+| 8    | 150             | la liste des plats reconnus                   |
+| 9    | 60              | la carte 784,5 et les anneaux de macros       |
+
+### Une seule bande de texte
+
+Sous la fenêtre, entre `y 1090` et `y 1430`, une bande unique porte **tout**
+le texte de tous les plans. Les pastilles d'étape qui flottaient en haut du
+cadre ont été supprimées : elles créaient un second point d'ancrage pour
+l'œil et laissaient la bande vide sur les plans 4 à 6. Le regard ne bouge
+plus.
+
+Les plans 4, 5 et 6 forment désormais un triptyque de verbes courts —
+**« Tu photographies. » / « Tu appuies. » / « Elle compte. »** — qui dit qui
+fait quoi, sans répéter le texte affiché par l'app.
+
+### L'accroche
+
+Seule exception au cadrage en fenêtre : le plan 1 joue la photo en plein
+cadre. Aucune lecture n'y est requise, donc le débordement est sans
+conséquence — et l'assiette doit posséder l'image avant que le produit
+n'arrive. Son texte, lui, reste dans la boîte.
 
 ## Arc narratif — la bascule chiffrée
 
@@ -83,17 +135,12 @@ recadré, pas estimées.
 | 9 | 18.90  | 3.70  | 47.80  | 1.0     | journal final 784,5                | compteur 3 460 → 784,5                                 |
 | 10| 22.60  | 3.60  | —      | —       | carton de fin sur fond de marque   | logo + CALBASSE + accroche                             |
 
-### La règle de caméra
+### Le mouvement
 
-Un seul principe gouverne les mouvements d'appareil, et il est tenu partout :
-
-- **Pastille en haut → l'appareil reste au repos** (plans 4, 5, 6).
-- **Carton en bas → l'appareil recule et se soulève**, ouvrant une bande propre
-  sous lui (plans 3, 7, 8, 9).
-
-Les valeurs de `scale` / `y` ne sont pas réglées à l'œil : la boîte de
-l'appareil fait 880 × 1778 à `top: 71`, donc chaque recul est calculé pour
-poser le bas de l'écran juste au-dessus du haut du carton.
+La fenêtre et la bande étant fixes, plus rien n'a besoin de s'écarter pour
+laisser passer un carton. Il ne reste que deux mouvements, tous deux motivés :
+la poussée lente sur l'assiette pendant l'accroche, et une impulsion de 3,5 %
+sur la fenêtre au moment où le verdict tombe.
 
 ### Ce que les surcouches ne font pas
 

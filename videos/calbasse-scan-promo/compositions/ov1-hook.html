@@ -13,16 +13,29 @@
           overflow: hidden;
           pointer-events: none;
         }
+        /* The hook plays over the photo itself, and the brightest part of the
+           plate (fried plantain) sits right behind this line, so gold alone
+           cannot hold 3:1 here. The scrim carries it. */
+        #ov1-scrim {
+          background: linear-gradient(
+            to top,
+            rgba(12, 5, 2, 0.97) 0%,
+            rgba(12, 5, 2, 0.94) 42%,
+            rgba(12, 5, 2, 0.7) 72%,
+            rgba(12, 5, 2, 0) 100%
+          );
+          height: 780px;
+        }
         .hook-h {
-          font-size: 116px;
-          margin-top: 30px;
+          font-size: 100px;
+          margin-top: 26px;
         }
       </style>
 
       <div id="root" data-composition-id="ov1" data-width="1080" data-height="1920">
         <div class="scrim-b" id="ov1-scrim"></div>
-        <div class="card" style="bottom: 150px">
-          <div class="kicker" id="ov1-kicker">Poulet braisé · Alloco · Igname frite</div>
+        <div class="card">
+          <div class="kicker" id="ov1-kicker">Poulet braisé · Alloco · Igname</div>
           <div class="display hook-h" id="ov1-head">Combien de<br />calories&nbsp;?</div>
         </div>
       </div>

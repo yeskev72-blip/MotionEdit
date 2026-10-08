@@ -16,21 +16,24 @@
       </style>
 
       <div id="root" data-composition-id="ov5" data-width="1080" data-height="1920">
-        <div class="scrim-t" id="ov5-scrim"></div>
-        <div class="pill" id="ov5-pill">
-          <span class="pill-n">02</span><span class="pill-t">Analyse</span>
+        <div class="scrim-b" id="ov5-scrim"></div>
+        <!-- centred on the app's own Analyser button inside the window:
+             source (540, 1566) → 60 + 540*0.72222, 180 + 1566*0.72222 - 361.1 -->
+        <div class="tap" id="ov5-tap" style="left: 355px; top: 855px"></div>
+        <div class="card">
+          <div><span class="step-n" id="ov5-n">02</span></div>
+          <div class="step-line" id="ov5-line">Tu appuies.</div>
         </div>
-        <!-- sits over the app's own Analyser button -->
-        <div class="tap" id="ov5-tap" style="left: 445px; top: 1282px"></div>
       </div>
 
       <script>
         const ov5 = gsap.timeline({ paused: true });
         ov5.fromTo("#ov5-scrim", { opacity: 0 }, { opacity: 1, duration: 0.24 }, 0.02);
-        ov5.fromTo("#ov5-pill", { opacity: 0, x: -56 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.06);
+        ov5.fromTo("#ov5-n", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.06);
+        ov5.fromTo("#ov5-line", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, 0.16);
         ov5.fromTo("#ov5-tap", { opacity: 0, scale: 0.3 }, { opacity: 0.95, scale: 1, duration: 0.34, ease: "power2.out" }, 0.6);
         ov5.to("#ov5-tap", { opacity: 0, scale: 1.75, duration: 0.5, ease: "power2.out" }, 0.94);
-        ov5.to("#ov5-pill", { opacity: 0, x: -30, duration: 0.22, ease: "power2.in" }, 1.16);
+        ov5.to(["#ov5-n", "#ov5-line"], { opacity: 0, y: -18, duration: 0.22, ease: "power2.in" }, 1.16);
         ov5.to("#ov5-scrim", { opacity: 0, duration: 0.2 }, 1.18);
         window.__timelines["ov5"] = ov5;
       </script>

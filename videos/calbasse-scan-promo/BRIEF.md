@@ -28,8 +28,12 @@ que pointer. Pas de slogan publicitaire gonflé.
 
 ## Customizations
 
-- Recadrage 9:16 : l'écran est posé dans un cadre d'appareil sur fond de marque,
-  jamais rogné — aucun contenu de l'app n'est perdu.
+- Gabarit TikTok : tout le texte tient dans x 60→840 / y 180→1440, hors des
+  zones couvertes par la légende, le pseudo, la barre de navigation et le rail
+  d'actions. Vérifié par mesure de pixels sur chaque plan, pas à l'œil.
+- L'écran de l'app est montré comme une fenêtre panoramiquée (780×860) dont le
+  cadrage change à chaque plan, plutôt que comme un téléphone entier rétréci :
+  à cette taille de boîte, l'appareil complet serait illisible.
 - Coupe des 18 s de défilement de galerie (12 s → 32 s dans la source), y compris
   la tentative ratée et son toast d'erreur « La photo n'a pas pu être lue depuis
   la galerie ».

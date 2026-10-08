@@ -55,25 +55,33 @@
           );
       }
 
-      /* The device is untimed on purpose: a <video data-start> may not sit
-         inside another timed element, and the camera moves tween freely. */
+      /* The app window sits wholly inside the TikTok safe box, with the text
+         band underneath it. It is untimed on purpose: a <video data-start>
+         may not sit inside another timed element.
+
+         The recording is 1080x2182 and the window is 780 wide, so the video
+         renders at 780 x 1576 (scale 0.72222) and the window shows a
+         1191px-tall slice of the source. Each clip carries its own `top`
+         offset, which is what puts that beat's key content in the slice —
+         the whole phone no longer fits in a TikTok-safe frame, so the film
+         shows the part that matters instead of shrinking all of it. */
       #stage {
         position: absolute;
-        left: 100px;
-        top: 71px;
-        width: 880px;
-        height: 1778px;
+        left: var(--win-x);
+        top: var(--win-y);
+        width: var(--win-w);
+        height: var(--win-h);
       }
 
       #glow {
         position: absolute;
-        left: -120px;
-        top: -90px;
-        width: 1120px;
-        height: 1958px;
+        left: -110px;
+        top: -110px;
+        width: 1000px;
+        height: 1080px;
         border-radius: 120px;
         background: radial-gradient(
-          54% 42% at 50% 46%,
+          54% 46% at 50% 50%,
           rgba(216, 168, 96, 0.3) 0%,
           rgba(199, 83, 29, 0.14) 44%,
           rgba(199, 83, 29, 0) 72%
@@ -84,25 +92,25 @@
         position: absolute;
         inset: 0;
         overflow: hidden;
-        border-radius: 46px;
+        border-radius: 38px;
         background: var(--cream);
         box-shadow:
-          0 48px 120px rgba(0, 0, 0, 0.62),
+          0 40px 100px rgba(0, 0, 0, 0.62),
           0 10px 30px rgba(0, 0, 0, 0.42);
       }
 
+      /* 780 / 1080 = 0.72222 → 2182 * 0.72222 = 1576 */
       #screen video {
         position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        left: 0;
+        width: 780px;
+        height: 1576px;
       }
 
       #bezel {
         position: absolute;
         inset: 0;
-        border-radius: 46px;
+        border-radius: 38px;
         border: 2px solid rgba(255, 255, 255, 0.17);
         box-shadow: inset 0 0 0 1px rgba(28, 14, 7, 0.4);
         pointer-events: none;
@@ -147,9 +155,11 @@
           <video
             id="v2"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -404.4px"
             data-start="2.6"
             data-duration="1.4"
-            data-media-start="7.0"
+            data-media-start="7.9"
             data-track-index="0"
             muted
             playsinline
@@ -158,6 +168,8 @@
           <video
             id="v3"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -43.3px"
             data-start="4.0"
             data-duration="1.3"
             data-media-start="11.65"
@@ -170,6 +182,8 @@
           <video
             id="v4"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -43.3px"
             data-start="5.3"
             data-duration="1.6"
             data-media-start="12.35"
@@ -183,6 +197,8 @@
           <video
             id="v5"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -361.1px"
             data-start="6.9"
             data-duration="1.4"
             data-media-start="32.2"
@@ -194,6 +210,8 @@
           <video
             id="v6"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -505.6px"
             data-start="8.3"
             data-duration="3.2"
             data-media-start="33.7"
@@ -206,6 +224,8 @@
           <video
             id="v7"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -325.0px"
             data-start="11.5"
             data-duration="4.8"
             data-media-start="38.9"
@@ -218,6 +238,8 @@
           <video
             id="v8"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -108.3px"
             data-start="16.3"
             data-duration="2.6"
             data-media-start="43.7"
@@ -230,6 +252,8 @@
           <video
             id="v9"
             src="assets/calbasse-screen.mp4"
+            data-layout-allow-overflow
+            style="top: -43.3px"
             data-start="18.9"
             data-duration="3.7"
             data-media-start="47.8"
@@ -465,40 +489,25 @@
     </div>
 
     <script>
-      /* Host timeline owns one thing: where the camera sits.
-         Every overlay animates inside its own sub-composition. */
+      /* With the window fixed inside the safe box and the text band fixed
+         under it, the old pull-back choreography is gone: nothing has to
+         move out of a card's way any more. What is left is the hook's push
+         and one punch on the verdict. */
       const tl = gsap.timeline({ paused: true });
 
       /* 1 · a slow push on the plate, so the hook has movement under it */
       tl.fromTo("#hero-v", { scale: 1 }, { scale: 1.07, duration: 2.8, ease: "none" }, 0);
 
       /* 1→2 · the plate hands over to the product. v2 is already running
-         underneath, so the device is live before the hook clears. */
+         underneath, so the window is live before the hook clears. */
       tl.to("#hero", { opacity: 0, duration: 0.2, ease: "power2.inOut" }, 2.6);
 
-      /* The pull-backs below are measured, not eyeballed: the device box is
-         880×1778 at top 71, so `scale`+`y` are chosen to land its bottom edge
-         just above each card's top edge and open a clean band under it.
-         The rule the film keeps: a top pill leaves the device at rest, a
-         bottom card makes it step back. */
-
-      /* 3 · budget card (top edge ≈1556) — device bottom lands at 1514 */
-      tl.to("#stage", { scale: 0.82, y: -175, duration: 0.42, ease: "power3.inOut" }, 3.86);
-
-      /* 4–6 · back to rest: those beats carry pills, not cards */
-      tl.to("#stage", { scale: 1, y: 0, duration: 0.42, ease: "power3.inOut" }, 5.16);
-
-      /* 7 · verdict card (top edge ≈1446) — device bottom lands at 1421 */
-      tl.to("#stage", { scale: 0.76, y: -215, duration: 0.62, ease: "power3.inOut" }, 11.46);
-
-      /* 8 · the dishes statement (top ≈1610) — device bottom lands at 1511 */
-      tl.to("#stage", { scale: 0.8, y: -160, duration: 0.5, ease: "power2.inOut" }, 16.26);
-
-      /* 9 · the swing card is short (top ≈1558) — let the device breathe back */
-      tl.to("#stage", { scale: 0.8, y: -180, duration: 0.6, ease: "power3.inOut" }, 18.86);
+      /* 7 · one punch as the verdict lands, then settle */
+      tl.to("#stage", { scale: 1.035, duration: 0.22, ease: "power2.out" }, 12.98);
+      tl.to("#stage", { scale: 1, duration: 0.7, ease: "power2.inOut" }, 13.21);
 
       /* 10 · hand over to the end card */
-      tl.to("#stage", { opacity: 0, scale: 0.84, duration: 0.42, ease: "power2.in" }, 22.44);
+      tl.to("#stage", { opacity: 0, scale: 0.94, duration: 0.42, ease: "power2.in" }, 22.44);
 
       window.__timelines["main"] = tl;
       tl.seek(0);

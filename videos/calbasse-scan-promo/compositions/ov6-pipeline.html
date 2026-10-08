@@ -14,31 +14,32 @@
           pointer-events: none;
         }
         .pipe-t {
-          position: absolute;
-          right: 70px;
-          bottom: 132px;
+          margin-top: 20px;
           color: var(--gold);
         }
       </style>
 
       <div id="root" data-composition-id="ov6" data-width="1080" data-height="1920">
-        <div class="scrim-t" id="ov6-scrim"></div>
-        <div class="pill" id="ov6-pill">
-          <span class="pill-n">03</span><span class="pill-t">Ça travaille</span>
+        <div class="scrim-b" id="ov6-scrim"></div>
+        <div class="card">
+          <div><span class="step-n" id="ov6-n">03</span></div>
+          <div class="step-line" id="ov6-line">Elle compte.</div>
+          <div class="rail" id="ov6-rail" style="position: relative; bottom: auto; left: auto; right: auto; margin-top: 26px">
+            <div class="rail-f" id="ov6-fill"></div>
+          </div>
+          <div class="note pipe-t" id="ov6-time">≈ 5 secondes</div>
         </div>
-        <div class="rail" id="ov6-rail"><div class="rail-f" id="ov6-fill"></div></div>
-        <div class="note pipe-t" id="ov6-time">≈ 5 s</div>
       </div>
 
       <script>
         const ov6 = gsap.timeline({ paused: true });
         ov6.fromTo("#ov6-scrim", { opacity: 0 }, { opacity: 1, duration: 0.24 }, 0.02);
-        ov6.fromTo("#ov6-pill", { opacity: 0, x: -56 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.06);
-        ov6.fromTo("#ov6-rail", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2);
-        ov6.fromTo("#ov6-fill", { scaleX: 0 }, { scaleX: 1, duration: 2.5, ease: "power1.inOut" }, 0.26);
-        ov6.fromTo("#ov6-time", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.3);
-        ov6.to("#ov6-pill", { opacity: 0, x: -30, duration: 0.22, ease: "power2.in" }, 2.96);
-        ov6.to(["#ov6-rail", "#ov6-time"], { opacity: 0, duration: 0.2 }, 2.96);
+        ov6.fromTo("#ov6-n", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.06);
+        ov6.fromTo("#ov6-line", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, 0.16);
+        ov6.fromTo("#ov6-rail", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.34);
+        ov6.fromTo("#ov6-fill", { scaleX: 0 }, { scaleX: 1, duration: 2.4, ease: "power1.inOut" }, 0.4);
+        ov6.fromTo("#ov6-time", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.44);
+        ov6.to(["#ov6-n", "#ov6-line", "#ov6-rail", "#ov6-time"], { opacity: 0, duration: 0.22 }, 2.96);
         ov6.to("#ov6-scrim", { opacity: 0, duration: 0.2 }, 2.98);
         window.__timelines["ov6"] = ov6;
       </script>
