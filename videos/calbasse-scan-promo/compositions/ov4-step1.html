@@ -27,7 +27,7 @@
         const ov4 = gsap.timeline({ paused: true });
         ov4.fromTo("#ov4-scrim", { opacity: 0 }, { opacity: 1, duration: 0.26 }, 0.02);
         ov4.fromTo("#ov4-n", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.06);
-        ov4.fromTo("#ov4-line", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.44, ease: "power3.out" }, 0.16);
+        ov4.fromTo("#ov4-line", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.44, ease: "power3.out" }, 0.16);
         ov4.to(["#ov4-n", "#ov4-line"], { opacity: 0, y: -18, duration: 0.24, ease: "power2.in" }, 1.34);
         ov4.to("#ov4-scrim", { opacity: 0, duration: 0.22 }, 1.36);
         window.__timelines["ov4"] = ov4;

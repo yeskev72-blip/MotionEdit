@@ -124,7 +124,15 @@ html {
      past the text origin, and the box edge is the box edge. */
   left: calc(var(--safe-left) + 6px);
   right: calc(var(--safe-right) + 6px);
-  bottom: 490px;
+  bottom: 512px;
+  padding-bottom: 12px;
+  /* A structural guarantee rather than a per-tween calculation: entrance
+     tweens start outside their resting position (text slides up from below,
+     the step pill slides in from the left), and chasing each offset against
+     the box edge is how breaches get missed. Clipping here means every
+     entrance is a wipe at the card's own edge, and nothing can leave the
+     box whatever a future tween does. */
+  overflow: hidden;
 }
 
 .valrow {

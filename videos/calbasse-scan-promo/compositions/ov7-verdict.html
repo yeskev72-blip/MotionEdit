@@ -84,11 +84,11 @@
 
         ov7.fromTo("#ov7-scrim", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.02);
         ov7.fromTo("#ov7-kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.22);
-        ov7.fromTo("#ov7-val", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.46, ease: "power3.out" }, 0.34);
+        ov7.fromTo("#ov7-val", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.46, ease: "power3.out" }, 0.34);
         /* the landing: one restrained pulse as the figure settles */
         ov7.fromTo("#ov7-val", { scale: 1 }, { scale: 1.045, duration: 0.16, ease: "power2.out", transformOrigin: "0% 50%", immediateRender: false }, 1.55);
         ov7.to("#ov7-val", { scale: 1, duration: 0.34, ease: "power2.inOut" }, 1.71);
-        ov7.fromTo(["#ov7-m1", "#ov7-m2", "#ov7-m3"], { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out", stagger: 0.11 }, 1.74);
+        ov7.fromTo(["#ov7-m1", "#ov7-m2", "#ov7-m3"], { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out", stagger: 0.11 }, 1.74);
         ov7.to(["#ov7-m1", "#ov7-m2", "#ov7-m3"], { opacity: 0, duration: 0.2, stagger: 0.05 }, 4.5);
         ov7.to("#ov7-val", { opacity: 0, y: -22, duration: 0.24, ease: "power2.in" }, 4.54);
         ov7.to("#ov7-kicker", { opacity: 0, duration: 0.2 }, 4.54);
