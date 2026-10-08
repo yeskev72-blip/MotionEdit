@@ -139,8 +139,16 @@ jamais plus :
 Chaque effet a une enveloppe de volume qui retombe à 0 avant la fin de son clip,
 donc aucune coupure nette ne claque.
 
-**Lit musical** : généré hors-ligne par MusicGen (`assets/bgm/generate.py`),
-graine torch fixée pour que la piste soit reproductible.
+**Lit musical** : absent de la version livrée. `assets/bgm/generate.py` est prêt
+(prompt afrobeat, graine torch fixée pour une piste reproductible) mais
+`huggingface.co` est refusé par la politique réseau de l'environnement — les
+poids de `facebook/musicgen-small` sont inatteignables. torch s'installe bien
+depuis PyPI, le modèle non. Débloquer `huggingface.co` dans les réglages de
+l'environnement suffit à relancer le script tel quel.
+
+Rien n'a été substitué à la place : sur 26 secondes, un ersatz de musique
+synthétisé à la main s'entendrait et desservirait la vidéo plus qu'un silence
+assumé sous les marqueurs.
 
 ## Garde-fous
 
