@@ -502,9 +502,23 @@
          underneath, so the window is live before the hook clears. */
       tl.to("#hero", { opacity: 0, duration: 0.2, ease: "power2.inOut" }, 2.6);
 
-      /* 7 · one punch as the verdict lands, then settle */
-      tl.to("#stage", { scale: 1.035, duration: 0.22, ease: "power2.out" }, 12.98);
-      tl.to("#stage", { scale: 1, duration: 0.7, ease: "power2.inOut" }, 13.21);
+      /* 7 · one punch as the verdict lands, then settle.
+         The punch rides the VIDEO, not the window: scaling the window pushed
+         its edges 14px past the safe box on both sides, putting app content
+         under the action rail at the exact moment the viewer reads it. The
+         frame now holds still and the content pushes into it.
+         Origin: the window shows video-local y 325..1185 of 1576, so its
+         centre sits at 755/1576 = 47.9%. */
+      tl.to(
+        "#v7",
+        { scale: 1.045, transformOrigin: "50% 47.9%", duration: 0.22, ease: "power2.out" },
+        12.98,
+      );
+      tl.to(
+        "#v7",
+        { scale: 1, transformOrigin: "50% 47.9%", duration: 0.7, ease: "power2.inOut" },
+        13.21,
+      );
 
       /* 10 · hand over to the end card */
       tl.to("#stage", { opacity: 0, scale: 0.94, duration: 0.42, ease: "power2.in" }, 22.44);

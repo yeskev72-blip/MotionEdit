@@ -120,8 +120,10 @@ html {
    TikTok's caption block. */
 .card {
   position: absolute;
-  left: var(--safe-left);
-  right: var(--safe-right);
+  /* 6px cushion inside the box: glyph antialiasing bleeds a couple of pixels
+     past the text origin, and the box edge is the box edge. */
+  left: calc(var(--safe-left) + 6px);
+  right: calc(var(--safe-right) + 6px);
   bottom: 490px;
 }
 
