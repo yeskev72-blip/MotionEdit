@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        .ec-bg {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(90% 52% at 50% 36%, #5a2712 0%, rgba(90, 39, 18, 0) 66%),
+            linear-gradient(170deg, #2a150a 0%, #1c0e07 56%, #120702 100%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .ec-name {
+          font-size: 92px;
+          margin-top: 44px;
+          display: flex;
+        }
+        .ec-tag {
+          margin-top: 34px;
+          text-align: center;
+          line-height: 1.7;
+        }
+        .ec-foot {
+          margin-top: 60px;
+          text-align: center;
+          line-height: 1.8;
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov10" data-width="1080" data-height="1920">
+        <div class="ec-bg" id="ov10-bg">
+          <svg id="ov10-logo" width="230" height="230" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#9c4818" stroke-width="11" />
+            <circle cx="50" cy="50" r="31" fill="#e9d6b4" />
+            <path
+              d="M27 44a23 15 0 0 1 46 0"
+              fill="none"
+              stroke="#f6ead3"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <!-- one element per glyph: letterSpacing snaps to device pixels
+               under the capture engine, so the spread rides x instead -->
+          <div class="display ec-name" id="ov10-name">
+            <span class="glyph">C</span><span class="glyph">A</span><span class="glyph">L</span
+            ><span class="glyph">B</span><span class="glyph">A</span><span class="glyph">S</span
+            ><span class="glyph">S</span><span class="glyph">E</span>
+          </div>
+          <div class="kicker ec-tag" id="ov10-tag">
+            Photographie ton plat.<br />Les calories suivent.
+          </div>
+          <div class="note ec-foot" id="ov10-foot">
+            Poulet braisé · Alloco · Igname frite · Sauce tomate<br />
+            table de composition d'Afrique de l'Ouest
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const ov10 = gsap.timeline({ paused: true });
+        ov10.fromTo("#ov10-bg", { opacity: 0 }, { opacity: 1, duration: 0.42, ease: "power2.out" }, 0.02);
+        ov10.fromTo("#ov10-logo", { opacity: 0, scale: 0.62 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" }, 0.16);
+        ov10.fromTo("#ov10-name .glyph", { opacity: 0, x: 26 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out", stagger: 0.035 }, 0.46);
+        ov10.fromTo("#ov10-tag", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.84);
+        ov10.fromTo("#ov10-foot", { opacity: 0 }, { opacity: 0.9, duration: 0.5 }, 1.22);
+        window.__timelines["ov10"] = ov10;
+      </script>
+    </template>
+  </body>
+</html>

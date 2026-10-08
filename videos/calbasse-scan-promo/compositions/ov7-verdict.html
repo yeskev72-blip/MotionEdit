@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        /* The results screen behind this card is cream, so the shared scrim
+           is not dense enough for gold-on-light. Steepen it for this beat. */
+        #ov7-scrim {
+          background: linear-gradient(
+            to top,
+            rgba(14, 6, 2, 0.97) 0%,
+            rgba(14, 6, 2, 0.95) 48%,
+            rgba(14, 6, 2, 0.74) 72%,
+            rgba(14, 6, 2, 0) 100%
+          );
+        }
+        .verdict-n {
+          font-size: 148px;
+        }
+        .verdict-u {
+          font-size: 52px;
+          color: var(--gold);
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov7" data-width="1080" data-height="1920">
+        <div class="scrim-b" id="ov7-scrim" style="height: 900px"></div>
+        <div class="card" style="bottom: 92px">
+          <div class="kicker" id="ov7-kicker">Le verdict</div>
+          <div class="valrow" id="ov7-val" style="margin-top: 20px">
+            <span class="num verdict-n" id="ov7-n">0</span>
+            <span class="num verdict-u">kcal</span>
+          </div>
+          <div class="macro-row">
+            <div class="macro" id="ov7-m1">
+              <div class="macro-bar" style="background: var(--prot)"></div>
+              <div class="macro-v">125,4 g</div>
+              <div class="macro-l" style="color: var(--prot-t)">Protéines</div>
+            </div>
+            <div class="macro" id="ov7-m2">
+              <div class="macro-bar" style="background: var(--gluc)"></div>
+              <div class="macro-v">238 g</div>
+              <div class="macro-l" style="color: var(--gluc-t)">Glucides</div>
+            </div>
+            <div class="macro" id="ov7-m3">
+              <div class="macro-bar" style="background: var(--lip)"></div>
+              <div class="macro-v">138 g</div>
+              <div class="macro-l" style="color: var(--lip-t)">Lipides</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const ov7 = gsap.timeline({ paused: true });
+        (function countUp(sel, from, to, at, dur, dec) {
+          const node = document.querySelector(sel);
+          const frames = Math.max(2, Math.round(dur * 30));
+          for (let i = 0; i <= frames; i++) {
+            const p = i / frames;
+            const e = 1 - Math.pow(1 - p, 3);
+            const v = from + (to - from) * e;
+            const s = Math.abs(v).toFixed(dec).split(".");
+            const txt = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : "");
+            ov7.set(node, { textContent: txt }, at + dur * p);
+          }
+        })("#ov7-n", 0, 2675.5, 0.4, 1.15, 1);
+
+        ov7.fromTo("#ov7-scrim", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.02);
+        ov7.fromTo("#ov7-kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.22);
+        ov7.fromTo("#ov7-val", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.46, ease: "power3.out" }, 0.34);
+        /* the landing: one restrained pulse as the figure settles */
+        ov7.fromTo("#ov7-val", { scale: 1 }, { scale: 1.045, duration: 0.16, ease: "power2.out", transformOrigin: "0% 50%", immediateRender: false }, 1.55);
+        ov7.to("#ov7-val", { scale: 1, duration: 0.34, ease: "power2.inOut" }, 1.71);
+        ov7.fromTo(["#ov7-m1", "#ov7-m2", "#ov7-m3"], { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out", stagger: 0.11 }, 1.74);
+        ov7.to(["#ov7-m1", "#ov7-m2", "#ov7-m3"], { opacity: 0, duration: 0.2, stagger: 0.05 }, 4.5);
+        ov7.to("#ov7-val", { opacity: 0, y: -22, duration: 0.24, ease: "power2.in" }, 4.54);
+        ov7.to("#ov7-kicker", { opacity: 0, duration: 0.2 }, 4.54);
+        ov7.to("#ov7-scrim", { opacity: 0, duration: 0.22 }, 4.58);
+        window.__timelines["ov7"] = ov7;
+      </script>
+    </template>
+  </body>
+</html>

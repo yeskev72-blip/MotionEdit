@@ -1,0 +1,253 @@
+/* Calbasse — shared overlay system.
+   Linked from index.html and from every sub-composition template; <link> is
+   hoisted on assembly, so one copy styles the whole assembled document.
+   Tokens live on html so they inherit into every mounted sub-composition root. */
+
+html {
+  --brand: #9c4818;
+  --brand-bright: #c7531d;
+  --gold: #d8a860;
+  --cream: #fcf8f2;
+  --ink: #1b191a;
+  --prot: #cc3c3c;
+  --gluc: #e49c0c;
+  --lip: #246cd8;
+  /* bars carry the app's exact colours; labels need a lighter cut to clear
+     3:1 against the scrim */
+  --prot-t: #ef8d89;
+  --gluc-t: #f0ba55;
+  --lip-t: #86b4f7;
+  --bg-0: #1c0e07;
+  --bg-1: #4a2010;
+}
+
+/* ── type voices ──────────────────────────────────────────────────── */
+
+/* the instrument: every number, unit, label and step index */
+.kicker {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.num {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.04em;
+  color: var(--cream);
+}
+
+.note {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  color: rgba(252, 248, 242, 0.55);
+}
+
+/* the plate: statements only */
+.display {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+}
+
+/* ── scrims ───────────────────────────────────────────────────────── */
+
+.scrim-b {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 760px;
+  background: linear-gradient(
+    to top,
+    rgba(16, 7, 3, 0.95) 0%,
+    rgba(16, 7, 3, 0.82) 34%,
+    rgba(16, 7, 3, 0) 100%
+  );
+}
+
+.scrim-t {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 420px;
+  background: linear-gradient(
+    to bottom,
+    rgba(16, 7, 3, 0.9) 0%,
+    rgba(16, 7, 3, 0.55) 46%,
+    rgba(16, 7, 3, 0) 100%
+  );
+}
+
+/* ── layout blocks ────────────────────────────────────────────────── */
+
+.card {
+  position: absolute;
+  left: 66px;
+  right: 66px;
+  bottom: 104px;
+}
+
+.valrow {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+/* ── step pill ────────────────────────────────────────────────────── */
+
+.pill {
+  position: absolute;
+  left: 70px;
+  top: 236px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 34px 20px 26px;
+  border-radius: 999px;
+  background: rgba(16, 7, 3, 0.88);
+  border: 2px solid rgba(216, 168, 96, 0.4);
+}
+
+.pill-n {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 34px;
+  color: var(--bg-0);
+  background: var(--gold);
+  border-radius: 999px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  letter-spacing: -0.02em;
+}
+
+.pill-t {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+/* ── macro chips ──────────────────────────────────────────────────── */
+
+.macro-row {
+  display: flex;
+  gap: 18px;
+  margin-top: 34px;
+}
+
+.macro {
+  flex: 1;
+  padding: 22px 24px 24px;
+  border-radius: 26px;
+  background: rgba(252, 248, 242, 0.07);
+  border: 2px solid rgba(252, 248, 242, 0.14);
+}
+
+.macro-bar {
+  height: 7px;
+  border-radius: 99px;
+  margin-bottom: 18px;
+}
+
+.macro-v {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 50px;
+  color: var(--cream);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.macro-l {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-size: 25px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ── detected-dish rows ───────────────────────────────────────────── */
+
+.food {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 0 18px;
+  border-bottom: 2px solid rgba(252, 248, 242, 0.16);
+}
+
+.food:last-of-type {
+  border-bottom: none;
+}
+
+.food-n {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: 44px;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+}
+
+.food-k {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 42px;
+  color: var(--gold);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── progress rail ────────────────────────────────────────────────── */
+
+.rail {
+  position: absolute;
+  left: 70px;
+  right: 70px;
+  bottom: 96px;
+  height: 8px;
+  border-radius: 99px;
+  background: rgba(252, 248, 242, 0.16);
+  overflow: hidden;
+}
+
+.rail-f {
+  position: absolute;
+  inset: 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--brand-bright), var(--gold));
+  transform-origin: 0% 50%;
+}
+
+/* ── tap ripple ───────────────────────────────────────────────────── */
+
+.tap {
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border-radius: 999px;
+  border: 5px solid var(--gold);
+}
+
+/* per-glyph spread: letterSpacing cannot be tweened (it snaps to device
+   pixels under the seek-by-frame capture engine), so each glyph is its own
+   element and the motion rides x. */
+.glyph {
+  display: inline-block;
+}

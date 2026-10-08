@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov5" data-width="1080" data-height="1920">
+        <div class="scrim-t" id="ov5-scrim"></div>
+        <div class="pill" id="ov5-pill">
+          <span class="pill-n">02</span><span class="pill-t">Analyse</span>
+        </div>
+        <!-- sits over the app's own Analyser button -->
+        <div class="tap" id="ov5-tap" style="left: 445px; top: 1282px"></div>
+      </div>
+
+      <script>
+        const ov5 = gsap.timeline({ paused: true });
+        ov5.fromTo("#ov5-scrim", { opacity: 0 }, { opacity: 1, duration: 0.24 }, 0.02);
+        ov5.fromTo("#ov5-pill", { opacity: 0, x: -56 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.06);
+        ov5.fromTo("#ov5-tap", { opacity: 0, scale: 0.3 }, { opacity: 0.95, scale: 1, duration: 0.34, ease: "power2.out" }, 0.6);
+        ov5.to("#ov5-tap", { opacity: 0, scale: 1.75, duration: 0.5, ease: "power2.out" }, 0.94);
+        ov5.to("#ov5-pill", { opacity: 0, x: -30, duration: 0.22, ease: "power2.in" }, 1.16);
+        ov5.to("#ov5-scrim", { opacity: 0, duration: 0.2 }, 1.18);
+        window.__timelines["ov5"] = ov5;
+      </script>
+    </template>
+  </body>
+</html>

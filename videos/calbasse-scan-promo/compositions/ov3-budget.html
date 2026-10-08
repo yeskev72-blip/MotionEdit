@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        /* The app's own 3 460 is already the biggest thing on screen, so this
+           beat names it rather than repeating it — the restatement is saved
+           for the count-down in beat 9, where it does new work. */
+        .bud-line {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 58px;
+          color: var(--cream);
+          letter-spacing: -0.03em;
+          line-height: 1.08;
+          margin-top: 18px;
+        }
+        .bud-sub {
+          margin-top: 16px;
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov3" data-width="1080" data-height="1920">
+        <div class="scrim-b" id="ov3-scrim" style="height: 620px"></div>
+        <div class="card" style="bottom: 150px">
+          <div class="kicker" id="ov3-kicker">Ton budget du jour</div>
+          <div class="bud-line" id="ov3-line">Rien de mangé.<br />Tout à dépenser.</div>
+          <div class="note bud-sub" id="ov3-sub">objectif 3 460 kcal</div>
+        </div>
+      </div>
+
+      <script>
+        const ov3 = gsap.timeline({ paused: true });
+        ov3.fromTo("#ov3-scrim", { opacity: 0 }, { opacity: 1, duration: 0.28 }, 0.02);
+        ov3.fromTo(
+          "#ov3-kicker",
+          { opacity: 0, x: -30 },
+          { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" },
+          0.08,
+        );
+        ov3.fromTo(
+          "#ov3-line",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.44, ease: "power3.out" },
+          0.18,
+        );
+        ov3.fromTo("#ov3-sub", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.42);
+        ov3.to(
+          ["#ov3-line", "#ov3-sub"],
+          { opacity: 0, y: -20, duration: 0.22, ease: "power2.in" },
+          1.06,
+        );
+        ov3.to("#ov3-kicker", { opacity: 0, duration: 0.18 }, 1.06);
+        ov3.to("#ov3-scrim", { opacity: 0, duration: 0.2 }, 1.08);
+        window.__timelines["ov3"] = ov3;
+      </script>
+    </template>
+  </body>
+</html>

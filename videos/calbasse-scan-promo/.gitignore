@@ -1,0 +1,9 @@
+# Build artifacts — regenerate with `npm run render` / `hyperframes snapshot`
+renders/
+snapshots/
+node_modules/
+package-lock.json
+
+# Generated music bed: ~1.7 MB of WAV, reproducible from assets/bgm/generate.py
+# (fixed torch seed). Commit a final MP3 instead if the track is kept.
+assets/bgm/track.wav

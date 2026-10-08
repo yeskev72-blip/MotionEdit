@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/overlay.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #1c0e07;
+      }
+
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      #bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(118% 62% at 50% 40%, var(--bg-1) 0%, rgba(74, 32, 16, 0) 62%),
+          linear-gradient(176deg, #2a150a 0%, var(--bg-0) 52%, #140803 100%);
+      }
+
+      #grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.5;
+        background-image:
+          repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.013) 0 1px,
+            rgba(0, 0, 0, 0) 1px 3px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.009) 0 1px,
+            rgba(0, 0, 0, 0) 1px 4px
+          );
+      }
+
+      /* The device is untimed on purpose: a <video data-start> may not sit
+         inside another timed element, and the camera moves tween freely. */
+      #stage {
+        position: absolute;
+        left: 100px;
+        top: 71px;
+        width: 880px;
+        height: 1778px;
+      }
+
+      #glow {
+        position: absolute;
+        left: -120px;
+        top: -90px;
+        width: 1120px;
+        height: 1958px;
+        border-radius: 120px;
+        background: radial-gradient(
+          54% 42% at 50% 46%,
+          rgba(216, 168, 96, 0.3) 0%,
+          rgba(199, 83, 29, 0.14) 44%,
+          rgba(199, 83, 29, 0) 72%
+        );
+      }
+
+      #screen {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border-radius: 46px;
+        background: var(--cream);
+        box-shadow:
+          0 48px 120px rgba(0, 0, 0, 0.62),
+          0 10px 30px rgba(0, 0, 0, 0.42);
+      }
+
+      #screen video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #bezel {
+        position: absolute;
+        inset: 0;
+        border-radius: 46px;
+        border: 2px solid rgba(255, 255, 255, 0.17);
+        box-shadow: inset 0 0 0 1px rgba(28, 14, 7, 0.4);
+        pointer-events: none;
+      }
+
+      /* The hook plays full-bleed, not inside the device: the plate has to
+         own the whole frame before the product is introduced. The source
+         frame letterboxes the photo into y 444–1796 of 2182, so the video is
+         sized and offset to crop exactly that band up to 1080×1920. */
+      #hero {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background: #000;
+      }
+
+      #hero-v {
+        position: absolute;
+        width: 1534px;
+        height: 3099px;
+        left: -227px;
+        top: -631px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="26.2"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div id="bg"></div>
+      <div id="grain"></div>
+
+      <div id="stage">
+        <div id="glow"></div>
+        <div id="screen">
+          <!-- 2 · splash lockup -->
+          <video
+            id="v2"
+            src="assets/calbasse-screen.mp4"
+            data-start="2.6"
+            data-duration="1.4"
+            data-media-start="7.0"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 3 · journal, empty: 3 460 kcal (0.455s of source, slowed) -->
+          <video
+            id="v3"
+            src="assets/calbasse-screen.mp4"
+            data-start="4.0"
+            data-duration="1.3"
+            data-media-start="11.65"
+            data-playback-rate="0.35"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 4 · camera, "Cadre tout le plat" (0.88s of source, slowed) -->
+          <video
+            id="v4"
+            src="assets/calbasse-screen.mp4"
+            data-start="5.3"
+            data-duration="1.6"
+            data-media-start="12.35"
+            data-playback-rate="0.55"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 5 · preview + Analyser. Source jumps 13.2s → 32.2s: the gallery
+               scroll, the failed first read and its error toast are cut. -->
+          <video
+            id="v5"
+            src="assets/calbasse-screen.mp4"
+            data-start="6.9"
+            data-duration="1.4"
+            data-media-start="32.2"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 6 · the four analysis steps (4.96s of source, sped up) -->
+          <video
+            id="v6"
+            src="assets/calbasse-screen.mp4"
+            data-start="8.3"
+            data-duration="3.2"
+            data-media-start="33.7"
+            data-playback-rate="1.55"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 7 · verdict: 2 675,5 kcal -->
+          <video
+            id="v7"
+            src="assets/calbasse-screen.mp4"
+            data-start="11.5"
+            data-duration="4.8"
+            data-media-start="38.9"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 8 · detected dishes + meal type; ends at 46.3s, before the
+               offline sync banner appears at 46.4s -->
+          <video
+            id="v8"
+            src="assets/calbasse-screen.mp4"
+            data-start="16.3"
+            data-duration="2.6"
+            data-media-start="43.7"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+          <!-- 9 · journal after the save: 784,5 kcal. Starts at 47.8s, after
+               the offline banner clears. -->
+          <video
+            id="v9"
+            src="assets/calbasse-screen.mp4"
+            data-start="18.9"
+            data-duration="3.7"
+            data-media-start="47.8"
+            data-track-index="0"
+            muted
+            playsinline
+          ></video>
+        </div>
+        <div id="bezel"></div>
+      </div>
+
+      <!-- after #stage in the DOM so it paints over the device during the
+           hook, and before the overlays so they stay on top -->
+      <div id="hero" data-layout-allow-overflow>
+        <video
+          id="hero-v"
+          data-layout-allow-overflow
+          src="assets/calbasse-screen.mp4"
+          data-start="0"
+          data-duration="2.8"
+          data-media-start="0.45"
+          data-track-index="0"
+          muted
+          playsinline
+        ></video>
+      </div>
+
+      <div
+        id="ov1"
+        class="clip"
+        data-composition-id="ov1"
+        data-composition-src="compositions/ov1-hook.html"
+        data-start="0"
+        data-duration="2.6"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov2"
+        class="clip"
+        data-composition-id="ov2"
+        data-composition-src="compositions/ov2-brand.html"
+        data-start="2.6"
+        data-duration="1.4"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov3"
+        class="clip"
+        data-composition-id="ov3"
+        data-composition-src="compositions/ov3-budget.html"
+        data-start="4.0"
+        data-duration="1.3"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov4"
+        class="clip"
+        data-composition-id="ov4"
+        data-composition-src="compositions/ov4-step1.html"
+        data-start="5.3"
+        data-duration="1.6"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov5"
+        class="clip"
+        data-composition-id="ov5"
+        data-composition-src="compositions/ov5-step2.html"
+        data-start="6.9"
+        data-duration="1.4"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov6"
+        class="clip"
+        data-composition-id="ov6"
+        data-composition-src="compositions/ov6-pipeline.html"
+        data-start="8.3"
+        data-duration="3.2"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov7"
+        class="clip"
+        data-composition-id="ov7"
+        data-composition-src="compositions/ov7-verdict.html"
+        data-start="11.5"
+        data-duration="4.8"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov8"
+        class="clip"
+        data-composition-id="ov8"
+        data-composition-src="compositions/ov8-foods.html"
+        data-start="16.3"
+        data-duration="2.6"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov9"
+        class="clip"
+        data-composition-id="ov9"
+        data-composition-src="compositions/ov9-swing.html"
+        data-start="18.9"
+        data-duration="3.7"
+        data-track-index="1"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+      <div
+        id="ov10"
+        class="clip"
+        data-composition-id="ov10"
+        data-composition-src="compositions/ov10-endcard.html"
+        data-start="22.6"
+        data-duration="3.6"
+        data-track-index="2"
+        data-width="1080"
+        data-height="1920"
+      ></div>
+
+      <!-- ── sound ────────────────────────────────────────────────────
+           The recording is silent end to end (-inf dB), so every cue here
+           is additive. Nine marks only, each tied to something the viewer
+           sees land; SFX sit at ~0.35 so a music bed can sit over them.
+           Each cue fades out before its clip ends so the hard cut at
+           data-duration never clicks. Pixabay licence, see assets/sfx. -->
+      <audio
+        id="sfx-slam"
+        src="assets/sfx/impact-bass-1.mp3"
+        data-start="0.42"
+        data-duration="1.7"
+        data-track-index="10"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.38},{"t":1.2,"v":0.38},{"t":1.7,"v":0}]}]}'
+      ></audio>
+      <audio
+        id="sfx-cut-brand"
+        src="assets/sfx/whoosh.mp3"
+        data-start="2.56"
+        data-duration="0.57"
+        data-volume="0.3"
+        data-track-index="10"
+      ></audio>
+      <audio
+        id="sfx-tap"
+        src="assets/sfx/click.mp3"
+        data-start="7.5"
+        data-duration="0.37"
+        data-volume="0.42"
+        data-track-index="11"
+      ></audio>
+      <audio
+        id="sfx-process"
+        src="assets/sfx/glitch-3.mp3"
+        data-start="8.45"
+        data-duration="2.7"
+        data-track-index="11"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.4,"v":0.22},{"t":2.1,"v":0.22},{"t":2.7,"v":0}]}]}'
+      ></audio>
+      <audio
+        id="sfx-verdict"
+        src="assets/sfx/impact-bass-2.mp3"
+        data-start="12.98"
+        data-duration="2.2"
+        data-track-index="10"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.42},{"t":1.6,"v":0.42},{"t":2.2,"v":0}]}]}'
+      ></audio>
+      <audio
+        id="sfx-chip-1"
+        src="assets/sfx/pop.mp3"
+        data-start="13.24"
+        data-duration="0.72"
+        data-volume="0.26"
+        data-track-index="11"
+      ></audio>
+      <audio
+        id="sfx-chip-2"
+        src="assets/sfx/pop.mp3"
+        data-start="13.35"
+        data-duration="0.72"
+        data-volume="0.26"
+        data-track-index="12"
+      ></audio>
+      <audio
+        id="sfx-chip-3"
+        src="assets/sfx/pop.mp3"
+        data-start="13.46"
+        data-duration="0.72"
+        data-volume="0.26"
+        data-track-index="13"
+      ></audio>
+      <audio
+        id="sfx-cut-swing"
+        src="assets/sfx/whoosh-short.mp3"
+        data-start="18.86"
+        data-duration="0.57"
+        data-volume="0.3"
+        data-track-index="10"
+      ></audio>
+      <audio
+        id="sfx-landed"
+        src="assets/sfx/chime.mp3"
+        data-start="20.46"
+        data-duration="2.1"
+        data-track-index="11"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.34},{"t":1.5,"v":0.34},{"t":2.1,"v":0}]}]}'
+      ></audio>
+      <audio
+        id="sfx-logo"
+        src="assets/sfx/sparkle.mp3"
+        data-start="22.74"
+        data-duration="1.8"
+        data-track-index="10"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.3},{"t":1.2,"v":0.3},{"t":1.8,"v":0}]}]}'
+      ></audio>
+    </div>
+
+    <script>
+      /* Host timeline owns one thing: where the camera sits.
+         Every overlay animates inside its own sub-composition. */
+      const tl = gsap.timeline({ paused: true });
+
+      /* 1 · a slow push on the plate, so the hook has movement under it */
+      tl.fromTo("#hero-v", { scale: 1 }, { scale: 1.07, duration: 2.8, ease: "none" }, 0);
+
+      /* 1→2 · the plate hands over to the product. v2 is already running
+         underneath, so the device is live before the hook clears. */
+      tl.to("#hero", { opacity: 0, duration: 0.2, ease: "power2.inOut" }, 2.6);
+
+      /* The pull-backs below are measured, not eyeballed: the device box is
+         880×1778 at top 71, so `scale`+`y` are chosen to land its bottom edge
+         just above each card's top edge and open a clean band under it.
+         The rule the film keeps: a top pill leaves the device at rest, a
+         bottom card makes it step back. */
+
+      /* 3 · budget card (top edge ≈1556) — device bottom lands at 1514 */
+      tl.to("#stage", { scale: 0.82, y: -175, duration: 0.42, ease: "power3.inOut" }, 3.86);
+
+      /* 4–6 · back to rest: those beats carry pills, not cards */
+      tl.to("#stage", { scale: 1, y: 0, duration: 0.42, ease: "power3.inOut" }, 5.16);
+
+      /* 7 · verdict card (top edge ≈1446) — device bottom lands at 1421 */
+      tl.to("#stage", { scale: 0.76, y: -215, duration: 0.62, ease: "power3.inOut" }, 11.46);
+
+      /* 8 · the dishes statement (top ≈1610) — device bottom lands at 1511 */
+      tl.to("#stage", { scale: 0.8, y: -160, duration: 0.5, ease: "power2.inOut" }, 16.26);
+
+      /* 9 · the swing card is short (top ≈1558) — let the device breathe back */
+      tl.to("#stage", { scale: 0.8, y: -180, duration: 0.6, ease: "power3.inOut" }, 18.86);
+
+      /* 10 · hand over to the end card */
+      tl.to("#stage", { opacity: 0, scale: 0.84, duration: 0.42, ease: "power2.in" }, 22.44);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

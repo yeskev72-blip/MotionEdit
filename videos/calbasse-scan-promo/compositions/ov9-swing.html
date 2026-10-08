@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        .swing-n {
+          font-size: 142px;
+        }
+        .swing-u {
+          font-size: 50px;
+          color: var(--gold);
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov9" data-width="1080" data-height="1920">
+        <div class="scrim-b" id="ov9-scrim" style="height: 700px"></div>
+        <div class="card" style="bottom: 128px">
+          <div class="kicker" id="ov9-kicker">Il te reste</div>
+          <div class="valrow" id="ov9-val" style="margin-top: 22px">
+            <span class="num swing-n" id="ov9-n">3 460</span>
+            <span class="num swing-u">kcal</span>
+          </div>
+          <div class="note" id="ov9-sub" style="margin-top: 16px">
+            2 675,5 mangées · cible 3 460
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const ov9 = gsap.timeline({ paused: true });
+        /* The whole film in one move: the day's budget being spent. */
+        (function countDown(sel, from, to, at, dur, dec) {
+          const node = document.querySelector(sel);
+          const frames = Math.max(2, Math.round(dur * 30));
+          for (let i = 0; i <= frames; i++) {
+            const p = i / frames;
+            const e = 1 - Math.pow(1 - p, 3);
+            const v = from + (to - from) * e;
+            const s = Math.abs(v).toFixed(dec).split(".");
+            const txt = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : "");
+            ov9.set(node, { textContent: txt }, at + dur * p);
+          }
+        })("#ov9-n", 3460, 784.5, 0.36, 1.25, 1);
+
+        ov9.fromTo("#ov9-scrim", { opacity: 0 }, { opacity: 1, duration: 0.32 }, 0.02);
+        ov9.fromTo("#ov9-kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.1);
+        ov9.fromTo("#ov9-val", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, 0.2);
+        ov9.fromTo("#ov9-sub", { opacity: 0 }, { opacity: 1, duration: 0.36 }, 1.7);
+        ov9.to(["#ov9-val", "#ov9-sub"], { opacity: 0, y: -20, duration: 0.26, ease: "power2.in" }, 3.4);
+        ov9.to("#ov9-kicker", { opacity: 0, duration: 0.2 }, 3.4);
+        ov9.to("#ov9-scrim", { opacity: 0, duration: 0.22 }, 3.42);
+        window.__timelines["ov9"] = ov9;
+      </script>
+    </template>
+  </body>
+</html>

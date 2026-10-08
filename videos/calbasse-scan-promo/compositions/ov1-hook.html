@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        .hook-h {
+          font-size: 116px;
+          margin-top: 30px;
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov1" data-width="1080" data-height="1920">
+        <div class="scrim-b" id="ov1-scrim"></div>
+        <div class="card" style="bottom: 150px">
+          <div class="kicker" id="ov1-kicker">Poulet braisé · Alloco · Igname frite</div>
+          <div class="display hook-h" id="ov1-head">Combien de<br />calories&nbsp;?</div>
+        </div>
+      </div>
+
+      <script>
+        const ov1 = gsap.timeline({ paused: true });
+        ov1.fromTo("#ov1-scrim", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.1);
+        ov1.fromTo("#ov1-kicker", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.26);
+        ov1.fromTo("#ov1-head", { opacity: 0, y: 54, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.52, ease: "power4.out" }, 0.42);
+        ov1.to("#ov1-head", { opacity: 0, y: -22, duration: 0.26, ease: "power2.in" }, 2.34);
+        ov1.to("#ov1-kicker", { opacity: 0, duration: 0.2 }, 2.34);
+        ov1.to("#ov1-scrim", { opacity: 0, duration: 0.24 }, 2.36);
+        window.__timelines["ov1"] = ov1;
+      </script>
+    </template>
+  </body>
+</html>

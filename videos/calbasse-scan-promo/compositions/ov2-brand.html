@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        .brand-line {
+          color: var(--cream);
+          text-align: center;
+          white-space: nowrap;
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov2" data-width="1080" data-height="1920">
+        <div class="scrim-b" id="ov2-scrim" style="height: 560px"></div>
+        <div class="card" style="bottom: 170px">
+          <div class="kicker brand-line" id="ov2-line">L'app qui connaît nos plats</div>
+        </div>
+      </div>
+
+      <script>
+        const ov2 = gsap.timeline({ paused: true });
+        ov2.fromTo("#ov2-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.02);
+        ov2.fromTo("#ov2-line", { opacity: 0, y: 22 }, { opacity: 0.88, y: 0, duration: 0.6, ease: "power3.out" }, 0.16);
+        ov2.to("#ov2-line", { opacity: 0, duration: 0.2 }, 1.22);
+        ov2.to("#ov2-scrim", { opacity: 0, duration: 0.2 }, 1.24);
+        window.__timelines["ov2"] = ov2;
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <link rel="stylesheet" href="assets/overlay.css" />
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        /* The app is already listing the four dishes with their calories
+           right above this card. Restating them would be decoration, so the
+           card says what the list proves instead, and the screen is the
+           evidence. */
+        .dish-line {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 62px;
+          color: var(--cream);
+          letter-spacing: -0.03em;
+          line-height: 1.06;
+          margin-top: 18px;
+        }
+        .dish-line em {
+          font-style: normal;
+          color: var(--gold);
+        }
+        .dish-sub {
+          margin-top: 18px;
+          line-height: 1.6;
+        }
+      </style>
+
+      <div id="root" data-composition-id="ov8" data-width="1080" data-height="1920">
+        <div class="scrim-b" id="ov8-scrim" style="height: 720px"></div>
+        <div class="card" style="bottom: 96px">
+          <div class="kicker" id="ov8-kicker">4 plats reconnus</div>
+          <div class="dish-line" id="ov8-line">
+            Pas de saisie.<br /><em>Pas de recherche.</em>
+          </div>
+          <div class="note dish-sub" id="ov8-sub">
+            table de composition d'Afrique de l'Ouest · valeurs à confirmer dans l'app
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const ov8 = gsap.timeline({ paused: true });
+        ov8.fromTo("#ov8-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.02);
+        ov8.fromTo(
+          "#ov8-kicker",
+          { opacity: 0, x: -30 },
+          { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" },
+          0.1,
+        );
+        ov8.fromTo(
+          "#ov8-line",
+          { opacity: 0, y: 32 },
+          { opacity: 1, y: 0, duration: 0.46, ease: "power3.out" },
+          0.22,
+        );
+        ov8.fromTo("#ov8-sub", { opacity: 0 }, { opacity: 1, duration: 0.34 }, 0.76);
+        ov8.to(
+          ["#ov8-line", "#ov8-sub"],
+          { opacity: 0, y: -20, duration: 0.22, ease: "power2.in" },
+          2.32,
+        );
+        ov8.to("#ov8-kicker", { opacity: 0, duration: 0.18 }, 2.34);
+        ov8.to("#ov8-scrim", { opacity: 0, duration: 0.2 }, 2.36);
+        window.__timelines["ov8"] = ov8;
+      </script>
+    </template>
+  </body>
+</html>
